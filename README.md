@@ -8,6 +8,7 @@ Website for **techFEST'26**, the annual technical fest of Sant Longowal Institut
 - Prize chart by domain and a fee calculator
 - Account signup and login, profile, per-event registration with team details, ticket with print option
 - Animated hero with a robot, light and dark theme, responsive layout
+- Robotics showcase gallery with an autonomous robotic car and a robotic hand
 
 ## Project structure
 ```
@@ -15,10 +16,12 @@ index.html   page content
 style.css    styling, themes and animations
 script.js    event data, registration logic and interactions
 robot.webp   hero robot image (transparent background)
+robotic-car.webp    showcase image: autonomous robotic car
+robotic-hand.webp   showcase image: robotic hand
 ```
 
 ## Run locally
-Keep all four files in the same folder and open `index.html` in a browser. No build step is needed.
+Keep all the files (HTML, CSS, JS and the three images) in the same folder and open `index.html` in a browser. No build step is needed.
 
 ## Deploy on GitHub Pages
 1. Create a new repository on GitHub (for example `techfest26`).
@@ -37,4 +40,5 @@ Keep all four files in the same folder and open `index.html` in a browser. No bu
 ## Notes
 - This is a front-end project. Accounts and registrations are saved in the visitor's own browser (localStorage) and are not sent to any server, and no payment is processed.
 - Fonts load from Google Fonts, so an internet connection is needed for the intended typography.
-- Check the licence of `robot.webp` before publishing publicly and add credit to its author if required.
+- Check the licence of `robot.webp`, `robotic-car.webp` and `robotic-hand.webp` before publishing publicly and add credit to their authors if required.
+- `robotic-hand.webp` carries a stock-site watermark (Magnific). Replace it with a clean, licensed image before going live.
