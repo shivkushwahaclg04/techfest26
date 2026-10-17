@@ -1,120 +1,663 @@
-const $=s=>document.querySelector(s),UN='https://unstop.com';
-const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-/* [domain, branch, prize, [[event, description, max team size]]] */
-const D=[
-['Robozar','Robotics','₹2,00,000+',[['Robowar','Head-to-head combat robots built to outmaneuver, disable or defeat the opponent.',5],['Rapid Line','A fully autonomous line follower races a track with turns, gaps and surface changes.',4],['Sky Maneuver','Manually pilot a quadcopter through obstacles, drop a payload and hold a stable hover.',4],['Hovermania','A remote-controlled hovercraft floats through a trackway of turns and junctions.',4],['Robosoccer','A 1v1 showdown of soccer robots that dribble, defend and score.',4],['RC Boat','A wireless battery-powered boat navigates a water obstacle course.',4],['RC Car','Drive a remote-controlled car through a dynamic obstacle course in record time.',3],['Micromouse Challenge','An autonomous robot explores, maps and solves an unknown maze to the centre.',4]]],
-['Plexus','CSE','₹50,000+',[['Competitive Programming Marathon','An endurance algorithm contest that tests analytical and mathematical thinking.',1],['Ghost Code','Decode broken or mysterious code and work out what it does or should do.',1],['Pixel Wizard','Recreate websites using specific tech stacks to test coding and design skills.',2],['Machine Learning Model','Build and present a machine learning model for the given challenge.',3],['Debug & Deploy (Diploma only)','Fix real-time coding issues and deploy solutions on the spot.',1],['AI Chit-Chat','Build chatbots with AI models that interact meaningfully with users.',3]]],
-['Electronica','ECE','₹50,000+',[['Circuit Craft','A timed electronics quiz, then a hands-on circuit design and debugging round.',2],['Digital Design Challenge','An individual Verilog or VHDL contest on logic, FSMs and memory interfaces.',1],['Innovation-X','A 10 to 12 day sprint to build a working MVP, ending with a 10-minute pitch and Q&A.',4],['Arduino Imagino','Solve a real student problem with an Arduino, sensors and live feedback.',3]]],
-['Electrica','EIE','₹45,000+',[['Soldering Speedrun','Solder a given circuit against the clock with speed and precision.',1],['Breadboard Battle','Design circuits on a breadboard to test your electronics skills.',2],['Grid Masters: SLD Challenge','Design, interpret and troubleshoot power system single line diagrams.',2],['WPTC Wireless','Build a wireless power transfer system to power the given load.',4]]],
-['Mechanica','ME','₹50,000+',[['Mechnovate','Present an innovative solution to a real-world mechanical problem as a PowerPoint.',2],['Designare','A 3D design contest blending aesthetics with function.',1],['Hydraload','Apply fluid mechanics and pressure dynamics to engineer hydraulic systems.',4],['Fabriquer','Fabricate machines using stamping, welding, cutting and bending.',4]]],
-['Civicon','Civil','₹30,000+',[['Truss Load','Design a truss that carries load efficiently using minimum material.',4],['City Model Exhibition','Build a 3D miniature model of a sustainable smart city.',4],['Seismic Challenge','A small structure must survive a shake table with minimal damage.',4],['CAD Design Challenge','Turn ideas into technical drawings with 2D drafting and 3D modeling.',1],['Technical Quiz','Civil engineering questions that test observation and thinking under pressure.',2],['Poster Presentation','Present research and emerging ideas in civil engineering.',2]]],
-['Chemica','CET','₹40,000+',[['Chemi-Thone','Solve an industry problem on day one, then pitch the shortlisted ideas on day two.',4],['Soap Making','Where science meets art: craft aromatic soaps and learn quality control.',2],['Jam Session','Wordplay and communication in the arena of chemical dialogue.',1],['Chemi-Mystery','A tri-round quest of chemical enigmas, one query at a time.',3],['Chemi Craft','Orchestrate a sequence of chemical reactions, judged on creativity and safety.',2],['Poster and Paper Presentation','Solve real problems with chemical engineering principles.',2]]],
-['Food-o-crats','FET','₹40,000+',[['Food Forge','Create a food product from random ingredients and pitch its nutrition and marketing.',3],['Food Forensics','Identify food samples by senses, then detect adulterants with testing methods.',2],['Clue Craze','A campus treasure hunt of clues, puzzles and QR-code challenges.',4],['Foodprint','Recognize food and beverage brands from logos, taglines and blurred images.',2],['Tech4Earth','A quiz on sustainability, climate, green tech, AI and space science.',2]]],
-['Genesis','M&H','₹35,000+',[['Pitchverse','Pitch a startup idea or prototype that solves a real-world problem.',4],['Case Crack','Analyze a business case and present a practical, strategic solution.',3],['Brand Blitz','Build a marketing strategy covering branding, promotion and audience.',3],['Case Ethical Crosstalk','Take a stand on an ethical dilemma and defend it with logic.',2]]],
-['Inventia','IIC','₹25,000+',[['Techno-Vation','Spot the underlying problem in a given statement and present an innovative solution.',4],['SM-Agri','Visit farms, find gaps between agriculture and technology, and pitch tech solutions.',4],['Cognitive Challenges','Games and puzzles revealed on the spot to test logic and problem solving.',2]]],
-['Atomheimer','Science','₹25,000+',[['The Big Bull (Diploma only)','Answer questions and manage virtual coins to score the highest.',3],['Aqua Clean','Turn dirty water crystal clear using limited materials.',3],['Splash Rocket','Design and launch a water-powered rocket in a two-round challenge.',3],['Aerostrike','Design a paper plane for maximum distance and flight precision.',2],['Quiz Nova','An individual written challenge of knowledge and logical reasoning.',1]]],
-['Kermis','Gaming','₹40,000+',[['BGMI','A battle-royale showdown of teamwork, strategy and quick decisions.',5],['Free Fire','A fast-paced squad battle won by coordination and combat skills.',4],['Chess','A one-on-one mind game decided over multiple rounds.',1]]],
-['KaryaRachna','Model Exhibitions','₹35,000+',[['Kritrim','A working model exhibition: build a functional prototype and submit a detailed report.',4],['Hackathon','A PowerPoint-based contest of innovative solutions to given problem statements.',3],['Jugaad','Build practical solutions from scrap or recycled materials.',4]]],
-['Aarambh','Pre-Fest','',[]]];
-$('#gr').innerHTML=D.map((d,i)=>`<button class="cdm" data-a="ev" data-i="${i}"><i>${String(i+1).padStart(2,'0')} · ${d[1].toUpperCase()}</i><h3>${d[0]}</h3><p>${d[3].length?d[3].length+' events':'Pre-Fest'}</p><em>${d[2]||'Pre-Fest'}</em></button>`).join('');
+const $ = s => document.querySelector(s);
+const UN = 'https://unstop.com';
+const E = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const D = [
+    [
+        'Robozar', 'Robotics', '₹2,00,000+',
+        [
+            ['Robowar', 'Head-to-head combat robots built to outmaneuver, disable or defeat the opponent.', 5],
+            ['Rapid Line', 'A fully autonomous line follower races a track with turns, gaps and surface changes.', 4],
+            ['Sky Maneuver', 'Manually pilot a quadcopter through obstacles, drop a payload and hold a stable hover.', 4],
+            ['Hovermania', 'A remote-controlled hovercraft floats through a trackway of turns and junctions.', 4],
+            ['Robosoccer', 'A 1v1 showdown of soccer robots that dribble, defend and score.', 4],
+            ['RC Boat', 'A wireless battery-powered boat navigates a water obstacle course.', 4],
+            ['RC Car', 'Drive a remote-controlled car through a dynamic obstacle course in record time.', 3],
+            ['Micromouse Challenge', 'An autonomous robot explores, maps and solves an unknown maze to the centre.', 4]
+        ]
+    ],
+    [
+        'Plexus', 'CSE', '₹50,000+',
+        [
+            ['Competitive Programming Marathon', 'An endurance algorithm contest that tests analytical and mathematical thinking.', 1],
+            ['Ghost Code', 'Decode broken or mysterious code and work out what it does or should do.', 1],
+            ['Pixel Wizard', 'Recreate websites using specific tech stacks to test coding and design skills.', 2],
+            ['Machine Learning Model', 'Build and present a machine learning model for the given challenge.', 3],
+            ['Debug & Deploy (Diploma only)', 'Fix real-time coding issues and deploy solutions on the spot.', 1],
+            ['AI Chit-Chat', 'Build chatbots with AI models that interact meaningfully with users.', 3]
+        ]
+    ],
+    [
+        'Electronica', 'ECE', '₹50,000+',
+        [
+            ['Circuit Craft', 'A timed electronics quiz, then a hands-on circuit design and debugging round.', 2],
+            ['Digital Design Challenge', 'An individual Verilog or VHDL contest on logic, FSMs and memory interfaces.', 1],
+            ['Innovation-X', 'A 10 to 12 day sprint to build a working MVP, ending with a 10-minute pitch and Q&A.', 4],
+            ['Arduino Imagino', 'Solve a real student problem with an Arduino, sensors and live feedback.', 3]
+        ]
+    ],
+    [
+        'Electrica', 'EIE', '₹45,000+',
+        [
+            ['Soldering Speedrun', 'Solder a given circuit against the clock with speed and precision.', 1],
+            ['Breadboard Battle', 'Design circuits on a breadboard to test your electronics skills.', 2],
+            ['Grid Masters: SLD Challenge', 'Design, interpret and troubleshoot power system single line diagrams.', 2],
+            ['WPTC Wireless', 'Build a wireless power transfer system to power the given load.', 4]
+        ]
+    ],
+    [
+        'Mechanica', 'ME', '₹50,000+',
+        [
+            ['Mechnovate', 'Present an innovative solution to a real-world mechanical problem as a PowerPoint.', 2],
+            ['Designare', 'A 3D design contest blending aesthetics with function.', 1],
+            ['Hydraload', 'Apply fluid mechanics and pressure dynamics to engineer hydraulic systems.', 4],
+            ['Fabriquer', 'Fabricate machines using stamping, welding, cutting and bending.', 4]
+        ]
+    ],
+    [
+        'Civicon', 'Civil', '₹30,000+',
+        [
+            ['Truss Load', 'Design a truss that carries load efficiently using minimum material.', 4],
+            ['City Model Exhibition', 'Build a 3D miniature model of a sustainable smart city.', 4],
+            ['Seismic Challenge', 'A small structure must survive a shake table with minimal damage.', 4],
+            ['CAD Design Challenge', 'Turn ideas into technical drawings with 2D drafting and 3D modeling.', 1],
+            ['Technical Quiz', 'Civil engineering questions that test observation and thinking under pressure.', 2],
+            ['Poster Presentation', 'Present research and emerging ideas in civil engineering.', 2]
+        ]
+    ],
+    [
+        'Chemica', 'CET', '₹40,000+',
+        [
+            ['Chemi-Thone', 'Solve an industry problem on day one, then pitch the shortlisted ideas on day two.', 4],
+            ['Soap Making', 'Where science meets art: craft aromatic soaps and learn quality control.', 2],
+            ['Jam Session', 'Wordplay and communication in the arena of chemical dialogue.', 1],
+            ['Chemi-Mystery', 'A tri-round quest of chemical enigmas, one query at a time.', 3],
+            ['Chemi Craft', 'Orchestrate a sequence of chemical reactions, judged on creativity and safety.', 2],
+            ['Poster and Paper Presentation', 'Solve real problems with chemical engineering principles.', 2]
+        ]
+    ],
+    [
+        'Food-o-crats', 'FET', '₹40,000+',
+        [
+            ['Food Forge', 'Create a food product from random ingredients and pitch its nutrition and marketing.', 3],
+            ['Food Forensics', 'Identify food samples by senses, then detect adulterants with testing methods.', 2],
+            ['Clue Craze', 'A campus treasure hunt of clues, puzzles and QR-code challenges.', 4],
+            ['Foodprint', 'Recognize food and beverage brands from logos, taglines and blurred images.', 2],
+            ['Tech4Earth', 'A quiz on sustainability, climate, green tech, AI and space science.', 2]
+        ]
+    ],
+    [
+        'Genesis', 'M&H', '₹35,000+',
+        [
+            ['Pitchverse', 'Pitch a startup idea or prototype that solves a real-world problem.', 4],
+            ['Case Crack', 'Analyze a business case and present a practical, strategic solution.', 3],
+            ['Brand Blitz', 'Build a marketing strategy covering branding, promotion and audience.', 3],
+            ['Case Ethical Crosstalk', 'Take a stand on an ethical dilemma and defend it with logic.', 2]
+        ]
+    ],
+    [
+        'Inventia', 'IIC', '₹25,000+',
+        [
+            ['Techno-Vation', 'Spot the underlying problem in a given statement and present an innovative solution.', 4],
+            ['SM-Agri', 'Visit farms, find gaps between agriculture and technology, and pitch tech solutions.', 4],
+            ['Cognitive Challenges', 'Games and puzzles revealed on the spot to test logic and problem solving.', 2]
+        ]
+    ],
+    [
+        'Atomheimer', 'Science', '₹25,000+',
+        [
+            ['The Big Bull (Diploma only)', 'Answer questions and manage virtual coins to score the highest.', 3],
+            ['Aqua Clean', 'Turn dirty water crystal clear using limited materials.', 3],
+            ['Splash Rocket', 'Design and launch a water-powered rocket in a two-round challenge.', 3],
+            ['Aerostrike', 'Design a paper plane for maximum distance and flight precision.', 2],
+            ['Quiz Nova', 'An individual written challenge of knowledge and logical reasoning.', 1]
+        ]
+    ],
+    [
+        'Kermis', 'Gaming', '₹40,000+',
+        [
+            ['BGMI', 'A battle-royale showdown of teamwork, strategy and quick decisions.', 5],
+            ['Free Fire', 'A fast-paced squad battle won by coordination and combat skills.', 4],
+            ['Chess', 'A one-on-one mind game decided over multiple rounds.', 1]
+        ]
+    ],
+    [
+        'KaryaRachna', 'Model Exhibitions', '₹35,000+',
+        [
+            ['Kritrim', 'A working model exhibition: build a functional prototype and submit a detailed report.', 4],
+            ['Hackathon', 'A PowerPoint-based contest of innovative solutions to given problem statements.', 3],
+            ['Jugaad', 'Build practical solutions from scrap or recycled materials.', 4]
+        ]
+    ],
+    [
+        'Aarambh', 'Pre-Fest', '',
+        []
+    ]
+];
 
+$('#gr').innerHTML = D.map((d, i) => `<button class="cdm" data-a="ev" data-i="${i}"><i>${String(i + 1).padStart(2, '0')} · ${d[1].toUpperCase()}</i><h3>${d[0]}</h3><p>${d[3].length ? d[3].length + ' events' : 'Pre-Fest'}</p><em>${d[2] || 'Pre-Fest'}</em></button>`).join('');
 
-const mem2={},st={get(k,d){try{const v=localStorage.getItem(k);if(v)return JSON.parse(v)}catch(e){}return k in mem2?mem2[k]:d},set(k,v){mem2[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const users=()=>st.get('tf26_users',[]),regs=()=>st.get('tf26_regs',[]),me=()=>users().find(u=>u.id===st.get('tf26_sess',null))||null;
-const isSl=u=>!!u&&(u.sliet||/sliet/i.test(u.college||'')||/@sliet\.ac\.in$/i.test(u.email||''));
-const rnd=()=>Math.random().toString(36).slice(2,10),fmt=n=>n===1?'Individual':'Team · up to '+n,money=n=>n?'₹'+n:'Free';
-async function hash(p,s){try{const d=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s+p));return[...new Uint8Array(d)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=5381;for(const c of s+p)h=((h<<5)+h+c.charCodeAt(0))|0;return'x'+h}}
-let S={v:'',tab:'login',pt:'profile',act:0,cur:null,tn:'',pass:299,msg:'',err:'',after:null,i:0},mem=[];
-const ov=$('#ov'),pn=$('#pn');
-const fld=(id,l,t,v,ph)=>`<div class="fd"><label for="${id}">${l}</label><input id="${id}" type="${t}" placeholder="${ph||''}" autocomplete="off" value="${E(v)}"></div>`;
-const head=t=>`<div class="ph"><span class="lg">tech<b>FEST</b>'26</span><button class="x" data-a="close" aria-label="Close">✕</button></div>${t?`<h2>${t}</h2>`:''}`;
-const tabs=(a,items)=>`<div class="tb">${items.map(i=>`<button data-a="${a}" data-v="${i[0]}" class="${i[2]?'on':''}">${i[1]}</button>`).join('')}</div>`;
-function show(v,o){Object.assign(S,{v,err:'',msg:''},o||{});draw();ov.classList.add('on');document.body.style.overflow='hidden';ov.scrollTop=0}
-function close(){ov.classList.remove('on');document.body.style.overflow='';S.after=null}
-function navU(){const u=me();$('#acct').textContent=u?u.name.split(' ')[0]:'Login'}
-function draw(){const f={ev:vEv,auth:vAuth,acct:vAcct,reg:vReg,done:vDone}[S.v];pn.innerHTML=f()}
-function vEv(){const d=D[S.i];return head(d[0])+`<span class="tg">${d[1]}</span><div class="fc"><div><small>Dates</small><b>20–21 Oct 2026</b></div><div><small>Prizes worth</small><b>${d[2]||'Pre-Fest'}</b></div><div><small>Events</small><b>${d[3].length||'Soon'}</b></div><div><small>Venue</small><b>SLIET Longowal</b></div></div>`+(d[3].length?`<div class="el">${d[3].map(e=>`<div class="ev"><div><b>${e[0]}</b><span class="tg">${fmt(e[2])}</span></div><p>${e[1]}</p></div>`).join('')}</div><div class="row" style="margin-top:20px"><button class="b" data-a="reg" data-i="${S.i}">Register for events</button><a class="b g" href="${UN}" target="_blank" rel="noopener">Unstop ↗</a></div>`:`<p class="ld">The pre-fest curtain raiser of techFEST'26. Details will be announced soon.</p>`)}
-function vAuth(){const l=S.tab==='login';return head(l?'Welcome back':'Create your account')+(S.msg?`<p class="ok">${S.msg}</p>`:'')+tabs('tab',[['login','Login',l],['signup','Sign up',!l]])+`<div style="max-width:480px">`+(l?fld('li','Email or phone','text','','you@email.com or 10-digit phone')+fld('lp','Password','password','','Your password')+`<button class="b" style="margin-top:16px" data-a="login">Login</button>`:fld('sn','Full name','text','','Your name')+fld('sm','Email','email','','you@college.edu')+fld('sp','Phone','tel','','10-digit mobile number')+fld('sw','Password','password','','At least 6 characters')+fld('sc','Confirm password','password','','Repeat password')+`<label class="hn" style="display:block;margin-top:12px"><input type="checkbox" id="ss"> I am a SLIET student (event registration is free)</label><button class="b" style="margin-top:14px" data-a="signup">Create account</button>`)+`<p class="er0">${S.err}</p></div>`}
-function vAcct(){const u=me(),p=S.pt==='profile';return head('Hi, '+E(u.name.split(' ')[0]))+(isSl(u)?'<span class="tg">SLIET student · free registrations</span>':'')+(S.msg?`<p class="ok">${S.msg}</p>`:'')+tabs('pt',[['profile','Profile',p],['regs','My registrations',!p],['out','Logout',0]])+(p?`<div style="max-width:720px"><div class="t2">${fld('pn','Full name','text',u.name)}${fld('pm','Email','email',u.email)}${fld('pp','Phone','tel',u.phone)}${fld('pr','Registration number','text',u.regNo,'College registration or roll number')}${fld('pc','College name','text',u.college)}${fld('pb','Branch','text',u.branch,'e.g. Computer Science')}</div><div class="fd"><label for="pa">Address</label><textarea id="pa" rows="3">${E(u.address)}</textarea></div><label class="hn" style="display:block;margin-top:12px"><input type="checkbox" id="ps"${u.sliet?' checked':''}> I am a SLIET student (event registration is free)</label>${fld('pw','New password (leave blank to keep current)','password','')}<button class="b" style="margin-top:14px" data-a="save">Save profile</button><p class="er0">${S.err}</p></div>`:regsV(u))}
-function regsV(u){const r=regs().filter(x=>x.uid===u.id);return(r.length?`<div class="el" style="max-width:720px">${r.map(x=>`<div class="ev"><div><b>${E(x.event)}</b><span class="tg">${E(x.format)}</span></div><p>${E(x.domain)} · Ticket ${E(x.id)} · ${money(x.amount)} · ${new Date(x.at).toLocaleDateString('en-IN')}</p>${x.team?`<p>Team ${E(x.team.name)} · Members: ${x.team.members.map(m=>E(m.n)+' ('+E(m.r)+')').join(', ')}</p>`:''}</div>`).join('')}</div>`:'<p class="ld">You have not registered for any event yet.</p>')+`<button class="b" style="margin-top:16px" data-a="reg">Register for events</button>`}
-function vReg(){const u=me(),rs=regs().filter(r=>r.uid===u.id);return head('Register for events')+`<p class="ld">Each event is registered separately. Pick a domain, then the events you want. SLIET students register free. <a href="${UN}" target="_blank" rel="noopener" style="color:var(--pr);font-weight:700">Prefer Unstop? ↗</a></p><div class="rg"><div><div class="tb">${D.map((d,i)=>d[3].length?`<button data-a="dom" data-i="${i}" class="${i===S.act?'on':''}">${d[0]}</button>`:'').join('')}</div>${D[S.act][3].map((e,j)=>{const k=S.act+'.'+j,dn=rs.some(r=>r.event===e[0]);return`<button class="er${S.cur===k?' on':''}" data-a="pick" data-k="${k}"${dn?' disabled':''}><div><b>${e[0]}</b><br><small>${fmt(e[2])}${dn?' · Registered':''}</small></div></button>`}).join('')}</div><aside class="sm">${panel(u)}</aside></div>`}
-function panel(u){const sl=isSl(u);if(S.cur===null)return`<small>Your account</small><h3>${E(u.name)}</h3><p class="hn">${sl?'SLIET student: all event registrations are free.':'Pass: ₹299 without accommodation or ₹599 with hostel stay, bought once and valid for all events.'}</p><p class="hn">Select an event on the left to register for it.</p><button class="b g s" data-a="acct">My account</button>`;
-const a=S.cur.split('.'),ev=D[a[0]][3][a[1]],mx=ev[2],tm=mx>1;
-if(!u.college||!u.regNo)return`<small>Almost there</small><h3>Complete your profile</h3><p class="hn">We need your college name and registration number before you can register.</p><button class="b s" data-a="acct">Complete profile</button>`;
-if(tm){if(!mem.length)mem.push({n:'',r:''});mem.length=Math.min(mem.length,mx-1)}
-const need=!sl&&!u.pass;
-return`<small>Registering for</small><h3>${ev[0]}</h3><span class="tg">${fmt(mx)}</span><p class="hn" style="margin-top:10px"><b>${E(u.name)}</b> (${tm?'leader':'participant'})<br>${E(u.phone)} · ${E(u.email)}<br>${E(u.college)} · ${E(u.regNo)}</p>`+(tm?`${fld('ftn','Team name','text',S.tn,'Your team name')}${mem.map((m,i)=>`<div class="mm"><b style="font-size:.85rem">Team member ${i+1} details</b>${mem.length>1?` <button data-a="rm" data-i="${i}" class="tg">Remove</button>`:''}<div class="t2"><input class="mn" data-m="${i}" type="text" placeholder="Name" value="${E(m.n)}" style="margin-top:6px"><input class="mr" data-m="${i}" type="text" placeholder="Registration number" value="${E(m.r)}" style="margin-top:6px"></div></div>`).join('')}${mem.length<mx-1?'<button class="b g s" style="margin-top:10px" data-a="addm">+ Add team member</button>':''}`:'')+(need?`<div class="fd"><label>Pass (one time, covers all events)</label><div class="ps"><button data-a="pass" data-p="299" class="${S.pass===299?'on':''}"><b>₹299</b><span>Without accommodation</span></button><button data-a="pass" data-p="599" class="${S.pass===599?'on':''}"><b>₹599</b><span>With accommodation</span></button></div></div>`:'')+`<p class="hn" style="margin-top:14px">Amount: <b>${sl?'Free':need?money(S.pass):'Paid ('+money(u.pass)+' pass)'}</b></p><button class="b" data-a="sub" style="margin-top:6px">Register for ${ev[0]}</button><p class="er0">${S.err}</p>`}
-function vDone(){const r=S.r;return head('You are in!')+`<div class="tk"><span class="tg">techFEST'26 · SLIET Longowal</span><h3 style="margin:8px 0 2px">${E(r.event)}</h3><p class="hn">${E(r.domain)} · ${E(r.format)}</p><div class="fc"><div><small>Ticket ID</small><b>${r.id}</b></div><div><small>Amount</small><b>${money(r.amount)}</b></div><div><small>Dates</small><b>20–21 Oct 2026</b></div></div><p class="hn">Participant: ${E(r.leader)}</p>${r.team?`<p class="hn">Team: ${E(r.team.name)} · ${r.team.members.map(m=>E(m.n)+' ('+E(m.r)+')').join(' · ')}</p>`:''}</div><div class="row"><button class="b" onclick="print()">Print / save ticket</button><button class="b g" data-a="reg">Register for another event</button><button class="b g" data-a="regs">My registrations</button></div>`}
-const need=f=>{if(!me()){S.after=f;return show('auth',{tab:'login',after:f,msg:'Please login or sign up to register for events.'})}f()};
-function openReg(i){need(()=>{mem=[];S.tn='';S.cur=null;S.act=(i!=null&&D[i][3].length)?+i:S.act;show('reg')})}
-const val=id=>$('#'+id).value.trim();
-async function login(){const id=val('li').toLowerCase(),p=$('#lp').value,u=users().find(x=>x.email===id||x.phone===id.replace(/\s/g,''));
-if(!id||!p){S.err='Enter your email or phone and your password.';return draw()}
-if(!u||u.hash!==await hash(p,u.salt)){S.err='Wrong email, phone or password.';return draw()}
-st.set('tf26_sess',u.id);navU();const f=S.after;S.after=null;f?f():show('acct',{pt:'profile'})}
-async function signup(){const email=val('sm').toLowerCase(),phone=val('sp').replace(/\s/g,''),pw=$('#sw').value;let m='';
-if(val('sn').length<2)m='Enter your full name.';else if(!/^\S+@\S+\.\S+$/.test(email))m='Enter a valid email.';else if(!/^[6-9]\d{9}$/.test(phone))m='Enter a valid 10-digit phone number.';else if(pw.length<6)m='Password must be at least 6 characters.';else if(pw!==$('#sc').value)m='Passwords do not match.';else if(users().some(x=>x.email===email))m='This email is already registered. Please login.';else if(users().some(x=>x.phone===phone))m='This phone number is already registered. Please login.';
-if(m){S.err=m;return draw()}
-const sl=$('#ss').checked||/@sliet\.ac\.in$/.test(email),salt=rnd(),u={id:'u'+Date.now().toString(36)+rnd().slice(0,3),name:val('sn'),email,phone,salt,hash:await hash(pw,salt),address:'',college:sl?'SLIET Longowal':'',regNo:'',branch:'',sliet:sl,pass:null};
-st.set('tf26_users',[...users(),u]);st.set('tf26_sess',u.id);navU();show('acct',{pt:'profile',msg:'Account created. Complete your profile to register for events.'})}
-async function save(){const u=me(),email=val('pm').toLowerCase(),phone=val('pp').replace(/\s/g,''),pw=$('#pw').value;let m='';
-if(val('pn').length<2)m='Enter your full name.';else if(!/^\S+@\S+\.\S+$/.test(email))m='Enter a valid email.';else if(!/^[6-9]\d{9}$/.test(phone))m='Enter a valid 10-digit phone number.';else if(users().some(x=>x.id!==u.id&&x.email===email))m='That email is used by another account.';else if(users().some(x=>x.id!==u.id&&x.phone===phone))m='That phone number is used by another account.';else if(pw&&pw.length<6)m='New password must be at least 6 characters.';
-if(m){S.err=m;return draw()}
-const sl=$('#ps').checked,n={...u,name:val('pn'),email,phone,regNo:val('pr'),college:val('pc')||(sl?'SLIET Longowal':''),branch:val('pb'),address:$('#pa').value.trim(),sliet:sl};
-if(pw){n.salt=rnd();n.hash=await hash(pw,n.salt)}
-st.set('tf26_users',users().map(x=>x.id===u.id?n:x));navU();
-if(S.after&&n.college&&n.regNo){const f=S.after;S.after=null;return f()}
-S.msg='Profile saved.';draw()}
-function submit(){const u=me(),a=S.cur.split('.'),ev=D[a[0]][3][a[1]],mx=ev[2],tm=mx>1,sl=isSl(u);let m='';
-if(tm){if(S.tn.trim().length<2)m='Enter your team name.';else if(!mem.length||mem.some(x=>x.n.trim().length<2||x.r.trim().length<3))m='Fill the name and registration number of every team member.'}
-if(m){S.err=m;return draw()}
-let amount=0;if(!sl&&!u.pass){amount=S.pass;st.set('tf26_users',users().map(x=>x.id===u.id?{...x,pass:S.pass}:x))}
-const r={id:'TF26-'+rnd().slice(0,6).toUpperCase(),uid:u.id,domain:D[a[0]][0],event:ev[0],format:fmt(mx),leader:u.name,amount,team:tm?{name:S.tn.trim(),members:mem.map(x=>({n:x.n.trim(),r:x.r.trim()}))}:null,at:Date.now()};
-st.set('tf26_regs',[...regs(),r]);S.r=r;show('done');}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t){if(e.target===ov)close();return}
-const a=t.dataset.a,d=t.dataset;
-if(a==='close')return close();
-if(a==='ev')return show('ev',{i:+d.i});
-if(a==='reg')return openReg(d.i??null);
-if(a==='tab'){S.tab=d.v;S.err='';return draw()}
-if(a==='pt'){if(d.v==='out'){st.set('tf26_sess',null);navU();return close()}S.pt=d.v;S.msg='';return draw()}
-if(a==='login')return login();if(a==='signup')return signup();if(a==='save')return save();
-if(a==='acct'){const k=S.act;return show('acct',{pt:'profile',msg:'Complete or edit your profile.',after:()=>openReg(k)})}
-if(a==='regs')return show('acct',{pt:'regs'});
-if(a==='dom'){S.act=+d.i;S.cur=null;S.err='';return draw()}
-if(a==='pick'){S.cur=d.k;mem=[];S.tn='';S.err='';return draw()}
-if(a==='addm'){mem.push({n:'',r:''});return draw()}
-if(a==='rm'){mem.splice(+d.i,1);return draw()}
-if(a==='pass'){S.pass=+d.p;return draw()}
-if(a==='sub')return submit()});
-document.addEventListener('input',e=>{const t=e.target;if(t.id==='ftn')S.tn=t.value;else if(t.classList.contains('mn'))mem[+t.dataset.m].n=t.value;else if(t.classList.contains('mr'))mem[+t.dataset.m].r=t.value});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Enter'&&e.target.tagName==='INPUT'&&S.v==='auth')(S.tab==='login'?login:signup)()});
-$('#acct').onclick=()=>me()?show('acct',{pt:'profile'}):show('auth',{tab:'login'});
+const mem2 = {};
+
+const st = {
+    get(k, d) {
+        try {
+            const v = localStorage.getItem(k);
+            if (v)
+                return JSON.parse(v);
+        } catch (e) { }
+        return k in mem2 ? mem2[k] : d;
+    },
+    set(k, v) {
+        mem2[k] = v;
+        try {
+            localStorage.setItem(k, JSON.stringify(v));
+        } catch (e) { }
+    }
+};
+
+const users = () => st.get('tf26_users', []);
+const regs = () => st.get('tf26_regs', []);
+const me = () => users().find(u => u.id === st.get('tf26_sess', null)) || null;
+const isSl = u => !!u && (u.sliet || /sliet/i.test(u.college || '') || /@sliet\.ac\.in$/i.test(u.email || ''));
+const rnd = () => Math.random().toString(36).slice(2, 10);
+const fmt = n => n === 1 ? 'Individual' : 'Team · up to ' + n;
+const money = n => n ? '₹' + n : 'Free';
+
+async function hash(p, s) {
+    try {
+        const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s + p));
+        return [...new Uint8Array(d)].map(x => x.toString(16).padStart(2, '0')).join('');
+    } catch (e) {
+        let h = 5381;
+        for (const c of s + p)
+            h = ((h << 5) + h + c.charCodeAt(0)) | 0;
+        return 'x' + h;
+    }
+}
+
+let S = {
+    v: '', tab: 'login', pt: 'profile', act: 0, cur: null, tn: '', pass: 299, msg: '', err: '', after: null, i: 0
+};
+
+let mem = [];
+const ov = $('#ov');
+const pn = $('#pn');
+const fld = (id, l, t, v, ph) => `<div class="fd"><label for="${id}">${l}</label><input id="${id}" type="${t}" placeholder="${ph || ''}" autocomplete="off" value="${E(v)}"></div>`;
+const head = t => `<div class="ph"><span class="lg">tech<b>FEST</b>'26</span><button class="x" data-a="close" aria-label="Close">✕</button></div>${t ? `<h2>${t}</h2>` : ''}`;
+const tabs = (a, items) => `<div class="tb">${items.map(i => `<button data-a="${a}" data-v="${i[0]}" class="${i[2] ? 'on' : ''}">${i[1]}</button>`).join('')}</div>`;
+
+function show(v, o) {
+    Object.assign(S, { v, err: '', msg: '' }, o || {});
+    draw();
+    ov.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    ov.scrollTop = 0;
+}
+
+function close() {
+    ov.classList.remove('on');
+    document.body.style.overflow = '';
+    S.after = null;
+}
+
+function navU() {
+    const u = me();
+    $('#acct').textContent = u ? u.name.split(' ')[0] : 'Login';
+}
+
+function draw() {
+    const f = { ev: vEv, auth: vAuth, acct: vAcct, reg: vReg, done: vDone }[S.v];
+    pn.innerHTML = f();
+}
+
+function vEv() {
+    const d = D[S.i];
+    return head(d[0]) + `<span class="tg">${d[1]}</span><div class="fc"><div><small>Dates</small><b>20–21 Oct 2026</b></div><div><small>Prizes worth</small><b>${d[2] || 'Pre-Fest'}</b></div><div><small>Events</small><b>${d[3].length || 'Soon'}</b></div><div><small>Venue</small><b>SLIET Longowal</b></div></div>` + (d[3].length ? `<div class="el">${d[3].map(e => `<div class="ev"><div><b>${e[0]}</b><span class="tg">${fmt(e[2])}</span></div><p>${e[1]}</p></div>`).join('')}</div><div class="row" style="margin-top:20px"><button class="b" data-a="reg" data-i="${S.i}">Register for events</button><a class="b g" href="${UN}" target="_blank" rel="noopener">Unstop ↗</a></div>` : `<p class="ld">The pre-fest curtain raiser of techFEST'26. Details will be announced soon.</p>`);
+}
+
+function vAuth() {
+    const l = S.tab === 'login';
+    return head(l ? 'Welcome back' : 'Create your account') + (S.msg ? `<p class="ok">${S.msg}</p>` : '') + tabs('tab', [['login', 'Login', l], ['signup', 'Sign up', !l]]) + `<div style="max-width:480px">` + (l ? fld('li', 'Email or phone', 'text', '', 'you@email.com or 10-digit phone') + fld('lp', 'Password', 'password', '', 'Your password') + `<button class="b" style="margin-top:16px" data-a="login">Login</button>` : fld('sn', 'Full name', 'text', '', 'Your name') + fld('sm', 'Email', 'email', '', 'you@college.edu') + fld('sp', 'Phone', 'tel', '', '10-digit mobile number') + fld('sw', 'Password', 'password', '', 'At least 6 characters') + fld('sc', 'Confirm password', 'password', '', 'Repeat password') + `<label class="hn" style="display:block;margin-top:12px"><input type="checkbox" id="ss"> I am a SLIET student (event registration is free)</label><button class="b" style="margin-top:14px" data-a="signup">Create account</button>`) + `<p class="er0">${S.err}</p></div>`;
+}
+
+function vAcct() {
+    const u = me();
+    const p = S.pt === 'profile';
+    return head('Hi, ' + E(u.name.split(' ')[0])) + (isSl(u) ? '<span class="tg">SLIET student · free registrations</span>' : '') + (S.msg ? `<p class="ok">${S.msg}</p>` : '') + tabs('pt', [['profile', 'Profile', p], ['regs', 'My registrations', !p], ['out', 'Logout', 0]]) + (p ? `<div style="max-width:720px"><div class="t2">${fld('pn', 'Full name', 'text', u.name)}${fld('pm', 'Email', 'email', u.email)}${fld('pp', 'Phone', 'tel', u.phone)}${fld('pr', 'Registration number', 'text', u.regNo, 'College registration or roll number')}${fld('pc', 'College name', 'text', u.college)}${fld('pb', 'Branch', 'text', u.branch, 'e.g. Computer Science')}</div><div class="fd"><label for="pa">Address</label><textarea id="pa" rows="3">${E(u.address)}</textarea></div><label class="hn" style="display:block;margin-top:12px"><input type="checkbox" id="ps"${u.sliet ? ' checked' : ''}> I am a SLIET student (event registration is free)</label>${fld('pw', 'New password (leave blank to keep current)', 'password', '')}<button class="b" style="margin-top:14px" data-a="save">Save profile</button><p class="er0">${S.err}</p></div>` : regsV(u));
+}
+
+function regsV(u) {
+    const r = regs().filter(x => x.uid === u.id);
+    return (r.length ? `<div class="el" style="max-width:720px">${r.map(x => `<div class="ev"><div><b>${E(x.event)}</b><span class="tg">${E(x.format)}</span></div><p>${E(x.domain)} · Ticket ${E(x.id)} · ${money(x.amount)} · ${new Date(x.at).toLocaleDateString('en-IN')}</p>${x.team ? `<p>Team ${E(x.team.name)} · Members: ${x.team.members.map(m => E(m.n) + ' (' + E(m.r) + ')').join(', ')}</p>` : ''}</div>`).join('')}</div>` : '<p class="ld">You have not registered for any event yet.</p>') + `<button class="b" style="margin-top:16px" data-a="reg">Register for events</button>`;
+}
+
+function vReg() {
+    const u = me();
+    const rs = regs().filter(r => r.uid === u.id);
+    return head('Register for events') + `<p class="ld">Each event is registered separately. Pick a domain, then the events you want. SLIET students register free. <a href="${UN}" target="_blank" rel="noopener" style="color:var(--pr);font-weight:700">Prefer Unstop? ↗</a></p><div class="rg"><div><div class="tb">${D.map((d, i) => d[3].length ? `<button data-a="dom" data-i="${i}" class="${i === S.act ? 'on' : ''}">${d[0]}</button>` : '').join('')}</div>${D[S.act][3].map((e, j) => {
+        const k = S.act + '.' + j;
+        const dn = rs.some(r => r.event === e[0]);
+        return `<button class="er${S.cur === k ? ' on' : ''}" data-a="pick" data-k="${k}"${dn ? ' disabled' : ''}><div><b>${e[0]}</b><br><small>${fmt(e[2])}${dn ? ' · Registered' : ''}</small></div></button>`;
+    }).join('')}</div><aside class="sm">${panel(u)}</aside></div>`;
+}
+
+function panel(u) {
+    const sl = isSl(u);
+    if (S.cur === null)
+        return `<small>Your account</small><h3>${E(u.name)}</h3><p class="hn">${sl ? 'SLIET student: all event registrations are free.' : 'Pass: ₹299 without accommodation or ₹599 with hostel stay, bought once and valid for all events.'}</p><p class="hn">Select an event on the left to register for it.</p><button class="b g s" data-a="acct">My account</button>`;
+    const a = S.cur.split('.');
+    const ev = D[a[0]][3][a[1]];
+    const mx = ev[2];
+    const tm = mx > 1;
+    if (!u.college || !u.regNo)
+        return `<small>Almost there</small><h3>Complete your profile</h3><p class="hn">We need your college name and registration number before you can register.</p><button class="b s" data-a="acct">Complete profile</button>`;
+    if (tm) {
+        if (!mem.length)
+            mem.push({ n: '', r: '' });
+        mem.length = Math.min(mem.length, mx - 1);
+    }
+    const need = !sl && !u.pass;
+    return `<small>Registering for</small><h3>${ev[0]}</h3><span class="tg">${fmt(mx)}</span><p class="hn" style="margin-top:10px"><b>${E(u.name)}</b> (${tm ? 'leader' : 'participant'})<br>${E(u.phone)} · ${E(u.email)}<br>${E(u.college)} · ${E(u.regNo)}</p>` + (tm ? `${fld('ftn', 'Team name', 'text', S.tn, 'Your team name')}${mem.map((m, i) => `<div class="mm"><b style="font-size:.85rem">Team member ${i + 1} details</b>${mem.length > 1 ? ` <button data-a="rm" data-i="${i}" class="tg">Remove</button>` : ''}<div class="t2"><input class="mn" data-m="${i}" type="text" placeholder="Name" value="${E(m.n)}" style="margin-top:6px"><input class="mr" data-m="${i}" type="text" placeholder="Registration number" value="${E(m.r)}" style="margin-top:6px"></div></div>`).join('')}${mem.length < mx - 1 ? '<button class="b g s" style="margin-top:10px" data-a="addm">+ Add team member</button>' : ''}` : '') + (need ? `<div class="fd"><label>Pass (one time, covers all events)</label><div class="ps"><button data-a="pass" data-p="299" class="${S.pass === 299 ? 'on' : ''}"><b>₹299</b><span>Without accommodation</span></button><button data-a="pass" data-p="599" class="${S.pass === 599 ? 'on' : ''}"><b>₹599</b><span>With accommodation</span></button></div></div>` : '') + `<p class="hn" style="margin-top:14px">Amount: <b>${sl ? 'Free' : need ? money(S.pass) : 'Paid (' + money(u.pass) + ' pass)'}</b></p><button class="b" data-a="sub" style="margin-top:6px">Register for ${ev[0]}</button><p class="er0">${S.err}</p>`;
+}
+
+function vDone() {
+    const r = S.r;
+    return head('You are in!') + `<div class="tk"><span class="tg">techFEST'26 · SLIET Longowal</span><h3 style="margin:8px 0 2px">${E(r.event)}</h3><p class="hn">${E(r.domain)} · ${E(r.format)}</p><div class="fc"><div><small>Ticket ID</small><b>${r.id}</b></div><div><small>Amount</small><b>${money(r.amount)}</b></div><div><small>Dates</small><b>20–21 Oct 2026</b></div></div><p class="hn">Participant: ${E(r.leader)}</p>${r.team ? `<p class="hn">Team: ${E(r.team.name)} · ${r.team.members.map(m => E(m.n) + ' (' + E(m.r) + ')').join(' · ')}</p>` : ''}</div><div class="row"><button class="b" onclick="print()">Print / save ticket</button><button class="b g" data-a="reg">Register for another event</button><button class="b g" data-a="regs">My registrations</button></div>`;
+}
+
+const need = f => {
+    if (!me()) {
+        S.after = f;
+        return show('auth', { tab: 'login', after: f, msg: 'Please login or sign up to register for events.' });
+    }
+    f();
+};
+
+function openReg(i) {
+    need(() => {
+        mem = [];
+        S.tn = '';
+        S.cur = null;
+        S.act = (i != null && D[i][3].length) ? +i : S.act;
+        show('reg');
+    });
+}
+
+const val = id => $('#' + id).value.trim();
+
+async function login() {
+    const id = val('li').toLowerCase();
+    const p = $('#lp').value;
+    const u = users().find(x => x.email === id || x.phone === id.replace(/\s/g, ''));
+    if (!id || !p) {
+        S.err = 'Enter your email or phone and your password.';
+        return draw();
+    }
+    if (!u || u.hash !== await hash(p, u.salt)) {
+        S.err = 'Wrong email, phone or password.';
+        return draw();
+    }
+    st.set('tf26_sess', u.id);
+    navU();
+    const f = S.after;
+    S.after = null;
+    f ? f() : show('acct', { pt: 'profile' });
+}
+
+async function signup() {
+    const email = val('sm').toLowerCase();
+    const phone = val('sp').replace(/\s/g, '');
+    const pw = $('#sw').value;
+    let m = '';
+    if (val('sn').length < 2)
+        m = 'Enter your full name.';
+    else if (!/^\S+@\S+\.\S+$/.test(email))
+        m = 'Enter a valid email.';
+    else if (!/^[6-9]\d{9}$/.test(phone))
+        m = 'Enter a valid 10-digit phone number.';
+    else if (pw.length < 6)
+        m = 'Password must be at least 6 characters.';
+    else if (pw !== $('#sc').value)
+        m = 'Passwords do not match.';
+    else if (users().some(x => x.email === email))
+        m = 'This email is already registered. Please login.';
+    else if (users().some(x => x.phone === phone))
+        m = 'This phone number is already registered. Please login.';
+    if (m) {
+        S.err = m;
+        return draw();
+    }
+    const sl = $('#ss').checked || /@sliet\.ac\.in$/.test(email);
+    const salt = rnd();
+    const u = {
+        id: 'u' + Date.now().toString(36) + rnd().slice(0, 3), name: val('sn'), email, phone, salt, hash: await hash(pw, salt), address: '', college: sl ? 'SLIET Longowal' : '', regNo: '', branch: '', sliet: sl, pass: null
+    };
+    st.set('tf26_users', [...users(), u]);
+    st.set('tf26_sess', u.id);
+    navU();
+    show('acct', { pt: 'profile', msg: 'Account created. Complete your profile to register for events.' });
+}
+
+async function save() {
+    const u = me();
+    const email = val('pm').toLowerCase();
+    const phone = val('pp').replace(/\s/g, '');
+    const pw = $('#pw').value;
+    let m = '';
+    if (val('pn').length < 2)
+        m = 'Enter your full name.';
+    else if (!/^\S+@\S+\.\S+$/.test(email))
+        m = 'Enter a valid email.';
+    else if (!/^[6-9]\d{9}$/.test(phone))
+        m = 'Enter a valid 10-digit phone number.';
+    else if (users().some(x => x.id !== u.id && x.email === email))
+        m = 'That email is used by another account.';
+    else if (users().some(x => x.id !== u.id && x.phone === phone))
+        m = 'That phone number is used by another account.';
+    else if (pw && pw.length < 6)
+        m = 'New password must be at least 6 characters.';
+    if (m) {
+        S.err = m;
+        return draw();
+    }
+    const sl = $('#ps').checked;
+    const n = {
+        ...u, name: val('pn'), email, phone, regNo: val('pr'), college: val('pc') || (sl ? 'SLIET Longowal' : ''), branch: val('pb'), address: $('#pa').value.trim(), sliet: sl
+    };
+    if (pw) {
+        n.salt = rnd();
+        n.hash = await hash(pw, n.salt);
+    }
+    st.set('tf26_users', users().map(x => x.id === u.id ? n : x));
+    navU();
+    if (S.after && n.college && n.regNo) {
+        const f = S.after;
+        S.after = null;
+        return f();
+    }
+    S.msg = 'Profile saved.';
+    draw();
+}
+
+function submit() {
+    const u = me();
+    const a = S.cur.split('.');
+    const ev = D[a[0]][3][a[1]];
+    const mx = ev[2];
+    const tm = mx > 1;
+    const sl = isSl(u);
+    let m = '';
+    if (tm) {
+        if (S.tn.trim().length < 2)
+            m = 'Enter your team name.';
+        else if (!mem.length || mem.some(x => x.n.trim().length < 2 || x.r.trim().length < 3))
+            m = 'Fill the name and registration number of every team member.';
+    }
+    if (m) {
+        S.err = m;
+        return draw();
+    }
+    let amount = 0;
+    if (!sl && !u.pass) {
+        amount = S.pass;
+        st.set('tf26_users', users().map(x => x.id === u.id ? { ...x, pass: S.pass } : x));
+    }
+    const r = {
+        id: 'TF26-' + rnd().slice(0, 6).toUpperCase(), uid: u.id, domain: D[a[0]][0], event: ev[0], format: fmt(mx), leader: u.name, amount, team: tm ? { name: S.tn.trim(), members: mem.map(x => ({ n: x.n.trim(), r: x.r.trim() })) } : null, at: Date.now()
+    };
+    st.set('tf26_regs', [...regs(), r]);
+    S.r = r;
+    show('done');
+}
+
+document.addEventListener('click', e => {
+    const t = e.target.closest('[data-a]');
+    if (!t) {
+        if (e.target === ov)
+            close();
+        return;
+    }
+    const a = t.dataset.a;
+    const d = t.dataset;
+    if (a === 'close')
+        return close();
+    if (a === 'ev')
+        return show('ev', { i: +d.i });
+    if (a === 'reg')
+        return openReg(d.i ?? null);
+    if (a === 'tab') {
+        S.tab = d.v;
+        S.err = '';
+        return draw();
+    }
+    if (a === 'pt') {
+        if (d.v === 'out') {
+            st.set('tf26_sess', null);
+            navU();
+            return close();
+        }
+        S.pt = d.v;
+        S.msg = '';
+        return draw();
+    }
+    if (a === 'login')
+        return login();
+    if (a === 'signup')
+        return signup();
+    if (a === 'save')
+        return save();
+    if (a === 'acct') {
+        const k = S.act;
+        return show('acct', {
+            pt: 'profile', msg: 'Complete or edit your profile.', after: () => openReg(k)
+        });
+    }
+    if (a === 'regs')
+        return show('acct', { pt: 'regs' });
+    if (a === 'dom') {
+        S.act = +d.i;
+        S.cur = null;
+        S.err = '';
+        return draw();
+    }
+    if (a === 'pick') {
+        S.cur = d.k;
+        mem = [];
+        S.tn = '';
+        S.err = '';
+        return draw();
+    }
+    if (a === 'addm') {
+        mem.push({ n: '', r: '' });
+        return draw();
+    }
+    if (a === 'rm') {
+        mem.splice(+d.i, 1);
+        return draw();
+    }
+    if (a === 'pass') {
+        S.pass = +d.p;
+        return draw();
+    }
+    if (a === 'sub')
+        return submit();
+});
+
+document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.id === 'ftn')
+        S.tn = t.value;
+    else if (t.classList.contains('mn'))
+        mem[+t.dataset.m].n = t.value;
+    else if (t.classList.contains('mr'))
+        mem[+t.dataset.m].r = t.value;
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape')
+        close();
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && S.v === 'auth')
+        (S.tab === 'login' ? login : signup)();
+});
+
+$('#acct').onclick = () => me() ? show('acct', { pt: 'profile' }) : show('auth', { tab: 'login' });
 navU();
-const ALL=D.flatMap((d,i)=>d[3].map((e,j)=>({d:d[0],i,j,n:e[0],t:e[1],m:e[2]})));let q='',ft='all';
-function fl(){const r=ALL.filter(x=>(ft==='all'||(ft==='solo')===(x.m===1))&&(x.n+' '+x.t+' '+x.d).toLowerCase().includes(q));
-$('#fr').innerHTML=r.map(x=>`<button class="cdm" data-fev="${x.i}.${x.j}"><i>${x.d.toUpperCase()}</i><h3 style="font-size:1.1rem">${x.n}</h3><p>${x.t}</p><em>${fmt(x.m)} · Register →</em></button>`).join('')||'<p class="ld">No events match your search.</p>';$('#fcnt').textContent=r.length+' of '+ALL.length+' events'}
-fl();
-$('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();fl()};
-$('#ftb').onclick=e=>{const b=e.target.closest('[data-ft]');if(!b)return;ft=b.dataset.ft;$('#ftb').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));fl()};
-$('#fr').onclick=e=>{const b=e.target.closest('[data-fev]');if(!b)return;const[i,j]=b.dataset.fev.split('.');need(()=>{mem=[];S.tn='';S.act=+i;S.cur=i+'.'+j;show('reg')})};
-const P=D.filter(d=>d[2]).map(d=>[d[0],+d[2].replace(/\D/g,''),d[2]]).sort((a,b)=>b[1]-a[1]);
-$('#pzc').innerHTML=P.map(p=>`<div class="pz"><b>${p[0]}</b><i style="width:${p[1]/P[0][1]*100}%"></i><span>${p[2]}</span></div>`).join('');
-function cc(){const n=Math.max(1,parseInt($('#cn').value)||1);$('#ct').textContent=$('#cs').checked?'Free':'₹'+(n*($('#ca').checked?599:299)).toLocaleString('en-IN')}
-$('#calc').oninput=cc;$('#calc').onchange=cc;cc();
-$('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme==='dark';r.dataset.theme=d?'light':'dark'};
-$('#bg').onclick=()=>$('#lk').classList.toggle('open');$('#lk').onclick=e=>{if(e.target.closest('a'))$('#lk').classList.remove('open')};
-const pg=document.createElement('div');pg.id='pg';document.body.prepend(pg);addEventListener('scroll',()=>{pg.style.width=scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)*100+'%'},{passive:true});
-(function(){
-const h=$('h1');h.setAttribute('aria-label',"techFEST'26");h.innerHTML=[..."techFEST'26"].map((c,i)=>`<span class="ch1${i>3&&i<8?' a':''}" aria-hidden="true" style="animation-delay:${i*70+150}ms">${c}</span>`).join('');
-$('#mq').innerHTML=[...D,...D].map(d=>`<span>${d[0]} ✦</span>`).join('');
-function cnt(b){const m=b.textContent.match(/^(\D*)([\d,]+)(.*)$/);if(!m)return;const end=+m[2].replace(/,/g,''),t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1600),v=Math.round(end*(1-Math.pow(1-p,3)));b.textContent=m[1]+v.toLocaleString('en-IN')+m[3];if(p<1)requestAnimationFrame(f)})(t0)}
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);if(e.target.matches('.st div'))cnt(e.target.querySelector('b'))}),{threshold:.15});
-document.querySelectorAll('.w>.eb,.w>h2,.w>.ld,.st div,#gr .cdm,.dy,.fee,details,.ch span,.cl,.hero .eb,.hero p.l,.hero .row,.nt').forEach(el=>{el.classList.add('rv');el.style.setProperty('--d',[...el.parentNode.children].indexOf(el)%8*70+'ms');io.observe(el)});
-$('#pzc').querySelectorAll('.pz i').forEach((e,i)=>e.style.transitionDelay=i*90+'ms');
-['#gr','#fr'].forEach(s=>{const g=$(s);g.addEventListener('pointermove',e=>{const c=e.target.closest('.cdm');if(!c)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.style.setProperty('--mx',x*100+'%');c.style.setProperty('--my',y*100+'%');c.style.setProperty('--ry',(x-.5)*10+'deg');c.style.setProperty('--rx',(.5-y)*10+'deg')});g.addEventListener('pointerout',e=>{const c=e.target.closest('.cdm');if(c&&!c.contains(e.relatedTarget)){c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')}})});
-const hr=$('.hero');hr.addEventListener('pointermove',e=>{const r=hr.getBoundingClientRect();hr.style.setProperty('--hx',e.clientX-r.left+'px');hr.style.setProperty('--hy',e.clientY-r.top+'px')});
 
+const ALL = D.flatMap((d, i) => d[3].map((e, j) => ({
+    d: d[0], i, j, n: e[0], t: e[1], m: e[2]
+})));
+
+let q = '';
+let ft = 'all';
+
+function fl() {
+    const r = ALL.filter(x => (ft === 'all' || (ft === 'solo') === (x.m === 1)) && (x.n + ' ' + x.t + ' ' + x.d).toLowerCase().includes(q));
+    $('#fr').innerHTML = r.map(x => `<button class="cdm" data-fev="${x.i}.${x.j}"><i>${x.d.toUpperCase()}</i><h3 style="font-size:1.1rem">${x.n}</h3><p>${x.t}</p><em>${fmt(x.m)} · Register →</em></button>`).join('') || '<p class="ld">No events match your search.</p>';
+    $('#fcnt').textContent = r.length + ' of ' + ALL.length + ' events';
+}
+
+fl();
+
+$('#q').oninput = e => {
+    q = e.target.value.trim().toLowerCase();
+    fl();
+};
+
+$('#ftb').onclick = e => {
+    const b = e.target.closest('[data-ft]');
+    if (!b)
+        return;
+    ft = b.dataset.ft;
+    $('#ftb').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    fl();
+};
+
+$('#fr').onclick = e => {
+    const b = e.target.closest('[data-fev]');
+    if (!b)
+        return;
+    const [i, j] = b.dataset.fev.split('.');
+    need(() => {
+        mem = [];
+        S.tn = '';
+        S.act = +i;
+        S.cur = i + '.' + j;
+        show('reg');
+    });
+};
+
+const P = D.filter(d => d[2]).map(d => [d[0], +d[2].replace(/\D/g, ''), d[2]]).sort((a, b) => b[1] - a[1]);
+
+$('#pzc').innerHTML = P.map(p => `<div class="pz"><b>${p[0]}</b><i style="width:${p[1] / P[0][1] * 100}%"></i><span>${p[2]}</span></div>`).join('');
+
+function cc() {
+    const n = Math.max(1, parseInt($('#cn').value) || 1);
+    $('#ct').textContent = $('#cs').checked ? 'Free' : '₹' + (n * ($('#ca').checked ? 599 : 299)).toLocaleString('en-IN');
+}
+
+$('#calc').oninput = cc;
+$('#calc').onchange = cc;
+cc();
+
+$('#th').onclick = () => {
+    const r = document.documentElement;
+    const d = r.dataset.theme === 'dark';
+    r.dataset.theme = d ? 'light' : 'dark';
+};
+
+$('#bg').onclick = () => $('#lk').classList.toggle('open');
+
+$('#lk').onclick = e => {
+    if (e.target.closest('a'))
+        $('#lk').classList.remove('open');
+};
+
+const pg = document.createElement('div');
+
+pg.id = 'pg';
+document.body.prepend(pg);
+
+addEventListener('scroll', () => {
+    pg.style.width = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight) * 100 + '%';
+}, { passive: true });
+
+(function () {
+    const h = $('h1');
+    h.setAttribute('aria-label', "techFEST'26");
+    h.innerHTML = [..."techFEST'26"].map((c, i) => `<span class="ch1${i > 3 && i < 8 ? ' a' : ''}" aria-hidden="true" style="animation-delay:${i * 70 + 150}ms">${c}</span>`).join('');
+    $('#mq').innerHTML = [...D, ...D].map(d => `<span>${d[0]} ✦</span>`).join('');
+    function cnt(b) {
+        const m = b.textContent.match(/^(\D*)([\d,]+)(.*)$/);
+        if (!m)
+            return;
+        const end = +m[2].replace(/,/g, '');
+        const t0 = performance.now();
+        (function f(t) {
+            const p = Math.min(1, (t - t0) / 1600);
+            const v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+            b.textContent = m[1] + v.toLocaleString('en-IN') + m[3];
+            if (p < 1)
+                requestAnimationFrame(f);
+        })(t0);
+    }
+    const io = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting)
+            return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+        if (e.target.matches('.st div'))
+            cnt(e.target.querySelector('b'));
+    }), { threshold: .15 });
+    document.querySelectorAll('.w>.eb,.w>h2,.w>.ld,.st div,#gr .cdm,.dy,.fee,details,.ch span,.cl,.hero .eb,.hero p.l,.hero .row,.nt').forEach(el => {
+        el.classList.add('rv');
+        el.style.setProperty('--d', [...el.parentNode.children].indexOf(el) % 8 * 70 + 'ms');
+        io.observe(el);
+    });
+    $('#pzc').querySelectorAll('.pz i').forEach((e, i) => e.style.transitionDelay = i * 90 + 'ms');
+    ['#gr', '#fr'].forEach(s => {
+        const g = $(s);
+        g.addEventListener('pointermove', e => {
+            const c = e.target.closest('.cdm');
+            if (!c)
+                return;
+            const r = c.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width;
+            const y = (e.clientY - r.top) / r.height;
+            c.style.setProperty('--mx', x * 100 + '%');
+            c.style.setProperty('--my', y * 100 + '%');
+            c.style.setProperty('--ry', (x - .5) * 10 + 'deg');
+            c.style.setProperty('--rx', (.5 - y) * 10 + 'deg');
+        });
+        g.addEventListener('pointerout', e => {
+            const c = e.target.closest('.cdm');
+            if (c && !c.contains(e.relatedTarget)) {
+                c.style.setProperty('--rx', '0deg');
+                c.style.setProperty('--ry', '0deg');
+            }
+        });
+    });
+    const hr = $('.hero');
+    hr.addEventListener('pointermove', e => {
+        const r = hr.getBoundingClientRect();
+        hr.style.setProperty('--hx', e.clientX - r.left + 'px');
+        hr.style.setProperty('--hy', e.clientY - r.top + 'px');
+    });
 })();
 
-(function(){const h=$('.hero'),f=$('.fig');if(!f)return;h.addEventListener('pointermove',e=>{const r=h.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;f.style.setProperty('--ry',-x*14+'deg');f.style.setProperty('--rx',y*8+'deg')});h.addEventListener('pointerleave',()=>{f.style.setProperty('--ry','0deg');f.style.setProperty('--rx','0deg')})})();
+(function () {
+    const h = $('.hero');
+    const f = $('.fig');
+    if (!f)
+        return;
+    h.addEventListener('pointermove', e => {
+        const r = h.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        f.style.setProperty('--ry', -x * 14 + 'deg');
+        f.style.setProperty('--rx', y * 8 + 'deg');
+    });
+    h.addEventListener('pointerleave', () => {
+        f.style.setProperty('--ry', '0deg');
+        f.style.setProperty('--rx', '0deg');
+    });
+})();
